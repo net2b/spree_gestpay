@@ -16,10 +16,12 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'capybara',     '~> 2.1'
   s.add_development_dependency 'coffee-rails'
-  s.add_development_dependency 'factory_girl', '~> 4.2'
+  s.add_development_dependency 'factory_girl'
   s.add_development_dependency 'ffaker'
-  s.add_development_dependency 'rspec-rails',  '~> 2.13'
+  s.add_development_dependency 'rspec-rails',  '~> 3.0.0'
   s.add_development_dependency 'sass-rails'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'database_cleaner'
+
+  s.add_development_dependency 'selenium-webdriver'
 end

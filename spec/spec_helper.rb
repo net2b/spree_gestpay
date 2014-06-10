@@ -4,6 +4,7 @@ ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 
 require 'rspec/rails'
+require 'database_cleaner'
 require 'ffaker'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -31,11 +32,13 @@ RSpec.configure do |config|
   end
 
   config.before do
-    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
+    DatabaseCleaner.strategy = RSpec.current_example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
   end
 
   config.after do
     DatabaseCleaner.clean
   end
+
+  config.raise_errors_for_deprecations!
 end
