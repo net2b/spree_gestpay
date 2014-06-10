@@ -7,25 +7,11 @@ module Gestpay
       :production => 'https://ecomms2s.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx?WSDL'
     }
 
-    def config
-      Gestpay.config
-    end
-
-    attr_accessor :client
-
     def initialize(args={})
       # SOAP Client operations:
       # => [:encrypt, :decrypt]
       @client = Savon.client(
         { :wsdl => URL[Gestpay.config.environment] }.merge(args))
-    end
-
-    def soap_options(data)
-      {
-        :message => {
-          :shop_login => config.account
-        }.merge(data)
-      }
     end
 
     def encrypt(data)
@@ -41,6 +27,19 @@ module Gestpay
       response_content = response.body[:decrypt_response][:decrypt_result][:gest_pay_crypt_decrypt]
       response_content[:custom_info] = decode(response_content[:custom_info]) if response_content[:custom_info]
       Result::Digest.new(response_content)
+    end
+
+    private
+    def config
+      Gestpay.config
+    end
+
+    def soap_options(data)
+      {
+        :message => {
+          :shop_login => config.account
+        }.merge(data)
+      }
     end
 
   end
