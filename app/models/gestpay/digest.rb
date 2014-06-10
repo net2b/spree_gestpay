@@ -8,10 +8,7 @@ module Gestpay
     }
 
     def initialize(args={})
-      # SOAP Client operations:
-      # => [:encrypt, :decrypt]
-      @client = Savon.client(
-        { :wsdl => URL[Gestpay.config.environment] }.merge(args))
+      @client = Savon.client({wsdl: URL[config.environment]}.merge(args))
     end
 
     def encrypt(data)
