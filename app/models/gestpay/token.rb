@@ -33,7 +33,11 @@ module Gestpay
       @options.to_h[key]
     end
 
-    def get
+    def encrypted_string
+      result.encrypted_string
+    end
+
+    def result
       @token ||= Digest.new.encrypt(@options.to_h)
     end
   end
