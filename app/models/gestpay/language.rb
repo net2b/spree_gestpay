@@ -3,11 +3,11 @@ module Gestpay
     private
     def self.mapping
       {
-        'en-US' => '2',
-        'it-IT' => '1',
-        'es-ES' => '3',
-        'fr-FR' => '4',
-        'de-DE' => '5',
+        'en' => '2',
+        'it' => '1',
+        'es' => '3',
+        'fr' => '4',
+        'de' => '5',
       }
     end
   end

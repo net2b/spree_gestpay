@@ -28,7 +28,7 @@ describe Gestpay::Currency do
 end
 
 describe Gestpay::Language do
-  let(:label) { "en-US" }
+  let(:label) { "en" }
   let(:code)  { "2" }
   it_behaves_like "a mapping"
 end
