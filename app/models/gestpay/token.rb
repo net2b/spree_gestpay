@@ -29,7 +29,7 @@ module Gestpay
       yield(@options) if block_given?
     end
 
-    def get_option(key)
+    def [](key)
       @options.to_h[key]
     end
 

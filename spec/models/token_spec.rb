@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 def expect_option(default, expectation)
-  it { expect(subject.get_option(default)).to eq expectation }
+  it { expect(subject[default]).to eq expectation }
 end
 
 describe Gestpay::Token do
