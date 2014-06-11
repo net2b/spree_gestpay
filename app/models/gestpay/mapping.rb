@@ -4,6 +4,12 @@ module Gestpay
       new(mapping.keys.first)
     end
 
+    def self.from_code(code)
+      mapping.reduce(nil) do |accu, (k, v)|
+        v == code ? new(k) : accu
+      end
+    end
+
     def code
       self.class.mapping[label]
     end
