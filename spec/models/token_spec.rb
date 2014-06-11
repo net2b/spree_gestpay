@@ -26,6 +26,7 @@ describe Gestpay::Token do
     let (:cassette) { "token" }
     before { VCR.insert_cassette cassette, :record => :new_episodes }
     after  { VCR.eject_cassette }
-    it     { expect(subject.get).to be_success }
+    it     { expect(subject.result).to be_success }
+    it     { expect(subject.encrypted_string).to eq "qFuAQHY5L8TrjquQ6bDBYafOws9fdFCnANMqiD1CsF5TNqrAbRIbXEFX*BGDQaNz65d5xSV2AZNFUhEtHd*IudvbRvOAnVqgIunFqe11rCt6BhIdOcXRL0U2tcFMlsrCvSl4_iadMlJteJTbAQ4sQnql1QN6vE3QvwKcWZaN4zPARjbYbTHS5T0Qxo0hB2DRiUFlMarx7nxRJiOHm6FugdrYIiuennCxWMk0YxRhRykUWop*KC0vTX8akxaO8WTmbRCYQB1VknC_O4*cMHGGXQ" }
   end
 end

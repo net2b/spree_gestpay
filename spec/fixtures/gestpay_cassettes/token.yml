@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 11 Jun 2014 10:48:11 GMT
+      - Wed, 11 Jun 2014 11:11:14 GMT
       Server:
       - Microsoft-IIS/6.0
       P3p:
@@ -230,7 +230,7 @@ http_interactions:
         \     <soap12:address location=\"https://testecomm.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx\"
         />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"
     http_version: 
-  recorded_at: Wed, 11 Jun 2014 10:48:11 GMT
+  recorded_at: Wed, 11 Jun 2014 11:11:14 GMT
 - request:
     method: post
     uri: https://testecomm.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx
@@ -238,15 +238,14 @@ http_interactions:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="https://ecomm.sella.it/"
-        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body><tns:Encrypt><tns:shopLogin
-        xsi:nil="true"/><tns:buyerEmail>kagami@kyoani.jp</tns:buyerEmail><tns:buyerName>Kagami</tns:buyerName><tns:amount>20.40</tns:amount><tns:shopTransactionId>RS012398723422</tns:shopTransactionId><tns:uicCode>242</tns:uicCode><tns:languageId>2</tns:languageId><tns:requestToken>MASKEDPAN</tns:requestToken></tns:Encrypt></env:Body></env:Envelope>
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body><tns:Encrypt><tns:shopLogin>GESPAY57135</tns:shopLogin><tns:buyerEmail>kagami@kyoani.jp</tns:buyerEmail><tns:buyerName>Kagami</tns:buyerName><tns:amount>20.40</tns:amount><tns:shopTransactionId>RS012398723422</tns:shopTransactionId><tns:uicCode>242</tns:uicCode><tns:languageId>2</tns:languageId><tns:requestToken>MASKEDPAN</tns:requestToken></tns:Encrypt></env:Body></env:Envelope>
     headers:
       Soapaction:
       - '"https://ecomm.sella.it/Encrypt"'
       Content-Type:
       - text/xml;charset=UTF-8
       Content-Length:
-      - '622'
+      - '633'
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -259,7 +258,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 11 Jun 2014 10:48:11 GMT
+      - Wed, 11 Jun 2014 11:11:14 GMT
       Server:
       - Microsoft-IIS/6.0
       P3p:
@@ -269,19 +268,18 @@ http_interactions:
       X-Aspnet-Version:
       - 4.0.30319
       Set-Cookie:
-      - ASP.NET_SessionId=03r3rzzqqvma1urjxewl3f3i; path=/; HttpOnly
+      - ASP.NET_SessionId=pkykkkcbbqjm2z5zvv2lm4qv; path=/; HttpOnly
       Cache-Control:
       - private, max-age=0
       Content-Type:
       - text/xml; charset=utf-8
       Content-Length:
-      - '560'
+      - '859'
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><EncryptResponse
-        xmlns="https://ecomm.sella.it/"><EncryptResult><GestPayCryptDecrypt xmlns=""><TransactionType>ENCRYPT</TransactionType><TransactionResult>KO</TransactionResult><ErrorCode>9999</ErrorCode><ErrorDescription>Errore
-        di Sistema</ErrorDescription></GestPayCryptDecrypt></EncryptResult></EncryptResponse></soap:Body></soap:Envelope>
+        xmlns="https://ecomm.sella.it/"><EncryptResult><GestPayCryptDecrypt xmlns=""><TransactionType>ENCRYPT</TransactionType><TransactionResult>OK</TransactionResult><CryptDecryptString>qFuAQHY5L8TrjquQ6bDBYafOws9fdFCnANMqiD1CsF5TNqrAbRIbXEFX*BGDQaNz65d5xSV2AZNFUhEtHd*IudvbRvOAnVqgIunFqe11rCt6BhIdOcXRL0U2tcFMlsrCvSl4_iadMlJteJTbAQ4sQnql1QN6vE3QvwKcWZaN4zPARjbYbTHS5T0Qxo0hB2DRiUFlMarx7nxRJiOHm6FugdrYIiuennCxWMk0YxRhRykUWop*KC0vTX8akxaO8WTmbRCYQB1VknC_O4*cMHGGXQ</CryptDecryptString><ErrorCode>0</ErrorCode><ErrorDescription></ErrorDescription></GestPayCryptDecrypt></EncryptResult></EncryptResponse></soap:Body></soap:Envelope>
     http_version: 
-  recorded_at: Wed, 11 Jun 2014 10:48:12 GMT
+  recorded_at: Wed, 11 Jun 2014 11:11:14 GMT
 recorded_with: VCR 2.9.2
