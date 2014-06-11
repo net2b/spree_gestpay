@@ -1,8 +1,15 @@
+require 'spec_helper'
+
 shared_examples "a mapping" do
   subject { described_class.new(label) }
+  let (:sample) { described_class.new(label) }
 
   describe ".default" do
-    it { expect(described_class.default).to eq described_class.new(label) }
+    it { expect(described_class.default).to eq sample }
+  end
+
+  describe ".from_code" do
+    it { expect(described_class.from_code(code)).to eq sample }
   end
 
   describe "#code" do
@@ -21,7 +28,7 @@ describe Gestpay::Currency do
 end
 
 describe Gestpay::Language do
-  let(:label) { "ITA" }
-  let(:code)  { "1" }
+  let(:label) { "en-US" }
+  let(:code)  { "2" }
   it_behaves_like "a mapping"
 end
