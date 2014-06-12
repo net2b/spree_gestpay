@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "GestPay", js: true do
   let(:product_name) { 'Rare Candy' }
