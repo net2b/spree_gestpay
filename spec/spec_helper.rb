@@ -53,3 +53,8 @@ end
 def keep_open
   STDIN.getc
 end
+
+def use_http_recordings
+  before { VCR.insert_cassette cassette, :record => :new_episodes }
+  after  { VCR.eject_cassette }
+end
