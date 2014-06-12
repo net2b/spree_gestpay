@@ -4,8 +4,7 @@ describe Gestpay::Digest do
 
   let(:digest) { Gestpay::Digest.new(:log => false) }
   subject { result }
-  before  { VCR.insert_cassette cassette, :record => :new_episodes }
-  after   { VCR.eject_cassette }
+  use_http_recordings
 
   describe '#encrypt' do
     let(:result) { digest.encrypt(hash) }
