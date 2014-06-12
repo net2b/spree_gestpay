@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def expect_option(default, expectation)
   it { expect(subject[default]).to eq expectation }

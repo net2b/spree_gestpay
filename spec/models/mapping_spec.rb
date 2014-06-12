@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples "a mapping" do
   subject { described_class.new(label) }
