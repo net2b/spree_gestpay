@@ -1,5 +1,7 @@
 require 'vcr'
 
+Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.extend VcrHelpers
