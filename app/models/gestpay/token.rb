@@ -1,7 +1,7 @@
 module Gestpay
   class Token
     class Builder < Struct.new(
-      :buyer_email, :buyer_name, :amount, :shop_transaction_id,
+      :shop_login, :buyer_email, :buyer_name, :amount, :shop_transaction_id,
       :uic_code, :language_id, :token_value, :request_token)
 
       def language=(language)
@@ -26,6 +26,7 @@ module Gestpay
       @options.request_token = "MASKEDPAN"
       @options.language      = Language.default
       @options.currency      = Currency.default
+      @options.shop_login    = Gestpay.config.account
       yield(@options) if block_given?
     end
 
@@ -38,7 +39,7 @@ module Gestpay
     end
 
     def result
-      @token ||= Digest.new.encrypt(@options.to_h)
+      @token ||= Gestpay::Digest.new.encrypt(@options.to_h)
     end
   end
 end

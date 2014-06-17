@@ -1,7 +1,11 @@
 module Spree
   class GestpayController < StoreController
     def get_token
-      result = Gestpay::Token.new.result
+      result = Gestpay::Token.new do |t|
+        t.transaction = params[:transaction]
+        t.amount      = params[:amount]
+      end.result
+
       if result.success?
         render json: { token: result.encrypted_string }
       else

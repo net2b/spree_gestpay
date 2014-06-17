@@ -22,7 +22,7 @@ describe Gestpay::Token do
     expect_option(:request_token, "MASKEDPAN")
   end
 
-  describe "#get" do
+  describe "#result" do
     let (:cassette) { "token" }
     use_http_recordings
     it     { expect(subject.result).to be_success }
