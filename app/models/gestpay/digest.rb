@@ -8,35 +8,22 @@ module Gestpay
     }
 
     def initialize(args={})
-      @client = Savon.client({wsdl: URL[config.environment]}.merge(args))
+      args = {wsdl: URL[Gestpay.config.environment]}.merge(args)
+      @client = Gestpay::SoapClient.new(args)
     end
 
     def encrypt(data)
       data[:custom_info] = encode(data[:custom_info]) if data[:custom_info]
-
-      response = @client.call(:encrypt, soap_options(data))
+      response = @client.call(:encrypt, data)
       response_content = response.body[:encrypt_response][:encrypt_result][:gest_pay_crypt_decrypt]
       Result::Digest.new(response_content)
     end
 
     def decrypt(string)
-      response = @client.call(:decrypt, soap_options({'CryptedString' => string}))
+      response = @client.call(:decrypt, {'CryptedString' => string})
       response_content = response.body[:decrypt_response][:decrypt_result][:gest_pay_crypt_decrypt]
       response_content[:custom_info] = decode(response_content[:custom_info]) if response_content[:custom_info]
       Result::Digest.new(response_content)
-    end
-
-    private
-    def config
-      Gestpay.config
-    end
-
-    def soap_options(data)
-      {
-        :message => {
-          :shop_login => config.account
-        }.merge(data)
-      }
     end
 
   end

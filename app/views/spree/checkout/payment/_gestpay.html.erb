@@ -32,3 +32,8 @@
   <%= text_field_tag "#{param_prefix}[verification_value]", '', {id: 'card_code', class: 'required', size: 5} %>
   <%= link_to "(#{t(:what_is_this)})", spree.content_path('cvv'), :target => '_blank', "data-hook" => "cvv_link", :id => "cvv_link" %>
 </p>
+
+<span class="gestpay-token-data"
+  data-token-path="<%= gestpay_get_token_path %>"
+  data-transaction="<%= @order.number %>"
+  data-amount="<%= @order.total %>"></span>
