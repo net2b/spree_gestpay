@@ -2,13 +2,9 @@ module Gestpay
   class Digest
     include Coders
 
-    URL = {
-      :test       => 'https://testecomm.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx?WSDL',
-      :production => 'https://ecomms2s.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx?WSDL'
-    }
-
     def initialize(args={})
-      args = {wsdl: URL[Gestpay.config.environment]}.merge(args)
+      wsdl = Gestpay::Host.s2s/'gestpay/gestpayws/WSCryptDecrypt.asmx?WSDL'
+      args = {wsdl: wsdl}.merge(args)
       @client = Gestpay::SoapClient.new(args)
     end
 
