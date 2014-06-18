@@ -6,4 +6,8 @@ module Spree::GestpayHelper
     }
     javascript_tag nil, attrs
   end
+
+  def gestpay_merchant
+    Gestpay.config.account
+  end
 end
