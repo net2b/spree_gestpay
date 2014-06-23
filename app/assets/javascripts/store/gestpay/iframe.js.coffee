@@ -2,7 +2,6 @@ class iframe
   constructor: (@merchant, @tokenPath, @transaction, @amount) ->
 
   generate: ->
-    # Probably not on the correct page
     if @browserSupported()
       @log("iframe initialized")
       @getToken()
