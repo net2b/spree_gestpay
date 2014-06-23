@@ -60,38 +60,21 @@ class iframe
     # comparing them
     if check(result, GESTPAY_LOAD_NO_ERROR)
       @log("iframe loaded!")
+      @registerSendPayment()
     else
       @error("error loading iframe", result)
-
-  GESTPAY_NO_ERROR    = 0
-  GESTPAY_NO_ERROR_3D = 8006
-
-  paymentCallback: (result) =>
-    if check(result, GESTPAY_NO_ERROR)
-      response = result.EncryptedResponse
-      @log("performed authorization (response: #{response})")
-      # normal call access Result.EncryptedResponse
-      return
-
-    if check(result, GESTPAY_NO_ERROR_3D)
-      transKey = result.TransKey
-      vbv      = result.VBVRisp
-      @log("performed 3D authorization (transKey: #{transKey}, vbv: #{vbv})")
-      # 3D call redirect to authentication page
-      return
-
-    @error("error during credit card authorization", result)
 
   registerSendPayment: =>
     $('input[type=submit].continue').on 'click', (e) =>
       e.preventDefault()
       f = new form()
-      GestPay.SendPayment
+
+      payment = new SpreeGestpay.payment()
+      payment.send
         CC:    f.cardNumber()
         EXPMM: f.cardExpiration().month
         EXPYY: f.cardExpiration().year
         CVV2:  f.cardSecureCode()
-      , @paymentCallback
 
   check: (result, expected) =>
     parseInt(result.ErrorCode) == expected
