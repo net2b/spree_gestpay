@@ -51,13 +51,7 @@ class iframe
       (#{result.ErrorCode})")
 
   log: (string) ->
-    console.log && console.log("[gestpay][iframe]: #{string}")
+    @logger ||= new SpreeGestpay.logger("iframe")
+    @logger.log(string)
 
-$ ->
-  $gestpay = $(".gestpay-data")
-  if $gestpay.length > 0
-    merchant    = $gestpay.data("merchant")
-    transaction = $gestpay.data("transaction")
-    amount      = $gestpay.data("amount")
-    tokenPath   = $gestpay.data("token-path")
-    new iframe(merchant, tokenPath, transaction, amount).generate()
+@SpreeGestpay.iframe = iframe
