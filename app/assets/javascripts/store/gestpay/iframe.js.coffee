@@ -4,10 +4,10 @@ class iframe
   generate: ->
     # Probably not on the correct page
     if @browserSupported()
-      @log("GESTPAY: iframe initialized")
+      @log("iframe initialized")
       @getToken()
     else
-      @log("GESTPAY: browser not supported")
+      @log("browser not supported")
 
   browserSupported: ->
     # This variable is set on window directly by the initialization script of
@@ -27,11 +27,11 @@ class iframe
       dataType: "json"
     .done (response) =>
       token = response.token
-      @log("GESTPAY: getToken success - #{token}")
+      @log("getToken success - #{token}")
       @createPaymentPage(token)
     .fail (response) =>
       json = $.parseJSON(response.responseText)
-      @log("GESTPAY: getToken failure - #{json.error}")
+      @log("getToken failure - #{json.error}")
 
   createPaymentPage: (token) ->
     GestPay.CreatePaymentPage(@merchant, token, @paymentPageLoaded)
@@ -46,13 +46,13 @@ class iframe
     # Gestpay returns error codes as strings. Convert them to integers before
     # comparing them
     if parseInt(result.ErrorCode) == GESTPAY_NO_ERROR
-      @log("GESTPAY: iframe loaded!")
+      @log("iframe loaded!")
     else
-      @log("GESTPAY: error loading iframe: '#{result.ErrorDescription}'
+      @log("error loading iframe: '#{result.ErrorDescription}'
       (#{result.ErrorCode})")
 
   log: (string) ->
-    console.log && console.log(string)
+    console.log && console.log("[gestpay][iframe]: #{string}")
 
 $ ->
   $gestpay = $(".gestpay-data")
