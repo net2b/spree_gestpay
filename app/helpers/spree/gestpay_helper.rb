@@ -7,6 +7,16 @@ module Spree::GestpayHelper
     javascript_tag nil, attrs
   end
 
+  def gestpay_stub_scripts
+    raw gestpay_stub_scripts_list.map { |stub|
+      javascript_tag nil, src: asset_path(stub), type: "text/javascript"
+    }.join
+  end
+
+  def gestpay_stub_scripts_list
+    []
+  end
+
   def gestpay_merchant
     Gestpay.config.account
   end

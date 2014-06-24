@@ -29,6 +29,7 @@ feature "GestPay", js: true do
   end
 
   it "pays for an order successfully" do
+    use_js_stubs("standard-ok")
     visit spree.root_path
     click_link product_name
     click_button 'Add To Cart'

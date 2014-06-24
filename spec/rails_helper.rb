@@ -17,7 +17,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Spree::Core::UrlHelpers
   config.include RSpec::Rails::RequestExampleGroup, type: :controller
-  config.include KeepOpenHelpers, type: :feature
+  config.include KeepOpenHelpers,  type: :feature
+  config.include ViewStubsHelpers, type: :feature
 
   config.mock_with :rspec
   config.color = true
