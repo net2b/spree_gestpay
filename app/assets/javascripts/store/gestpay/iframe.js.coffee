@@ -1,13 +1,13 @@
 class form
   cardNumber: ->
-    get 'card_number'
+    @get 'card_number'
 
   cardExpiration: ->
-    month: get 'card_month'
-    year:  get 'card_year'
+    month: @get 'card_month'
+    year:  @get 'card_year'
 
   cardSecureCode: ->
-    get 'card_code'
+    @get 'card_code'
 
   get: (id) ->
     $("##{id}").val()
