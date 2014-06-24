@@ -1,4 +1,4 @@
-class payment
+class payment extends SpreeGestpay.module
   GESTPAY_NO_ERROR    = 0
   GESTPAY_NO_ERROR_3D = 8006
 
@@ -16,9 +16,23 @@ class payment
       # 3D call redirect to authentication page
       return
 
-    @error("error during credit card authorization", result)
+    @error("error during authorization", result)
 
   send: (options) =>
     GestPay.SendPayment(options, @callback)
 
-SpreeGestpay.payment
+  callback3d: (result) =>
+    if check(result, GESTPAY_NO_ERROR)
+      response = result.EncryptedResponse
+      @log("performed 3D authorization (response: #{response})")
+      return
+
+    @error("error during 3D authorization", result)
+
+  send3d: (options) =>
+    GestPay.SendPayment(options, @callback3d)
+
+  gestpayModuleName: ->
+    "payment"
+
+SpreeGestpay.payment = payment
