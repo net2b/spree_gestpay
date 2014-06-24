@@ -12,7 +12,7 @@ class form
   get: (id) ->
     $("##{id}").val()
 
-class iframe
+class iframe extends SpreeGestpay.module
   constructor: (@merchant, @tokenPath, @transaction, @amount) ->
 
   generate: ->
@@ -58,7 +58,7 @@ class iframe
   paymentPageLoaded: (result) =>
     # Gestpay returns error codes as strings. Convert them to integers before
     # comparing them
-    if check(result, GESTPAY_LOAD_NO_ERROR)
+    if @check(result, GESTPAY_LOAD_NO_ERROR)
       @log("iframe loaded!")
       @registerSendPayment()
     else
@@ -76,14 +76,7 @@ class iframe
         EXPYY: f.cardExpiration().year
         CVV2:  f.cardSecureCode()
 
-  check: (result, expected) =>
-    parseInt(result.ErrorCode) == expected
-
-  error: (string, result) =>
-    @log("#{string}: '#{result.ErrorDescription}' (#{result.ErrorCode})")
-
-  log: (string) ->
-    @logger ||= new SpreeGestpay.logger("iframe")
-    @logger.log(string)
+  gestpayModuleName: ->
+    "iframe"
 
 @SpreeGestpay.iframe = iframe
