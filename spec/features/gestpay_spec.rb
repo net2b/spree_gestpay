@@ -25,7 +25,7 @@ feature "GestPay", js: true do
     shipping_method = FactoryGirl.create(:shipping_method)
     state = FactoryGirl.create(:state)
     state.country.update_column(:name, country)
-    shipping_method.zone.zone_members.create(zoneable: state.country)
+    shipping_method.zones.first.zone_members.create(zoneable: state.country)
   end
 
   it "pays for an order successfully" do
