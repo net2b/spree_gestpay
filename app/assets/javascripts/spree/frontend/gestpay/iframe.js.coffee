@@ -3,8 +3,8 @@ class form
     @get 'card_number'
 
   cardExpiration: ->
-    month: @get 'card_month'
-    year:  @get 'card_year'
+    month: if @get('card_month').length == 1 then "0" + @get('card_month') else @get('card_month')
+    year: @get('card_year').toString().substr(2,2);
 
   cardSecureCode: ->
     @get 'card_code'
