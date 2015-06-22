@@ -21,7 +21,7 @@ module Gestpay
       @state = :waiting_req_url
     end
 
-    def debug(message)
+    def debug(message = nil)
       case @state
       when :waiting_req_body
         @state    = :waiting_res_code
@@ -32,7 +32,7 @@ module Gestpay
       end
     end
 
-    def info(message)
+    def info(message = nil)
       case @state
       when :waiting_req_url
         if message =~ SOAP_REQ_URL_RGX
