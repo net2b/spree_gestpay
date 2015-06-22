@@ -11,9 +11,10 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.required_ruby_version = '>= 2.1.1'
-  s.add_dependency 'spree_core',    '~> 2.4'
-  s.add_dependency 'savon',         '~> 2.6'
 
+  s.add_dependency 'spree_core',     '~> 2.4'
+  s.add_dependency 'spree_frontend', '~> 2.4'
+  s.add_dependency 'savon',          '~> 2.6'
 
   s.add_development_dependency 'vcr',                '~> 2.9.2'
   s.add_development_dependency 'webmock',            '~> 1.18.0'
