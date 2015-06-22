@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.required_ruby_version = '>= 2.1.1'
-  s.add_dependency 'spree_core',    '~> 2.4.8.beta'
+  s.add_dependency 'spree_core',    '~> 2.4'
   s.add_dependency 'savon',         '~> 2.6'
   s.add_dependency 'coffee-script', '~> 2.4'
   s.add_dependency 'sass',          '~> 3.4'
