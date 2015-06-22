@@ -3,13 +3,13 @@ class payment extends SpreeGestpay.module
   GESTPAY_NO_ERROR_3D = 8006
 
   callback: (result) =>
-    if check(result, GESTPAY_NO_ERROR)
+    if @check(result, GESTPAY_NO_ERROR)
       response = result.EncryptedResponse
       @log("performed authorization (response: #{response})")
       # normal call access Result.EncryptedResponse
       return
 
-    if check(result, GESTPAY_NO_ERROR_3D)
+    if @check(result, GESTPAY_NO_ERROR_3D)
       transKey = result.TransKey
       vbv      = result.VBVRisp
       @log("performed 3D authorization (transKey: #{transKey}, vbv: #{vbv})")
@@ -22,7 +22,7 @@ class payment extends SpreeGestpay.module
     GestPay.SendPayment(options, @callback)
 
   callback3d: (result) =>
-    if check(result, GESTPAY_NO_ERROR)
+    if @check(result, GESTPAY_NO_ERROR)
       response = result.EncryptedResponse
       @log("performed 3D authorization (response: #{response})")
       return
