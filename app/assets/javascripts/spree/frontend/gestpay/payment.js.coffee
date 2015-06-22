@@ -4,6 +4,7 @@ class payment extends SpreeGestpay.module
 
   callback: (result) =>
     if @check(result, GESTPAY_NO_ERROR)
+      @log("result: #{result}")
       response = result.EncryptedResponse
       @log("performed authorization (response: #{response})")
       # normal call access Result.EncryptedResponse
