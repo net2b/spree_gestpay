@@ -7,10 +7,10 @@ require 'database_cleaner'
 require 'ffaker'
 
 # Requires factories defined in spree_core
-require 'spree/core/testing_support/factories'
-require 'spree/core/testing_support/controller_requests'
-require 'spree/core/testing_support/authorization_helpers'
-require 'spree/core/url_helpers'
+require 'spree/testing_support/factories'
+require 'spree/testing_support/controller_requests'
+require 'spree/testing_support/authorization_helpers'
+require 'spree/testing_support/url_helpers'
 require 'spree_gestpay/factories'
 
 RSpec.configure do |config|
