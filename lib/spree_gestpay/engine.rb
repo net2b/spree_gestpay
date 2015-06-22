@@ -21,12 +21,6 @@ module SpreeGestpay
       app.config.spree.payment_methods << Spree::Gateway::Gestpay
     end
 
-    initializer 'spree.gestpay.action_controller' do |app|
-      ActiveSupport.on_load :action_controller do
-        helper Spree::GestpayHelper
-      end
-    end
-
     config.to_prepare &method(:activate).to_proc
   end
 end

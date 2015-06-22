@@ -4,7 +4,7 @@ module Gestpay
 
     def initialize(args={})
       wsdl = Gestpay::Host.s2s/'gestpay/gestpayws/WSCryptDecrypt.asmx?WSDL'
-      args = {wsdl: wsdl}.merge(args)
+      args = { wsdl: wsdl, ssl_version: :TLSv1, :follow_redirects => true }.merge(args)
       @client = Gestpay::SoapClient.new(args)
     end
 
