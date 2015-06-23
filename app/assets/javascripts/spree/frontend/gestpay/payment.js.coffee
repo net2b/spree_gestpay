@@ -13,6 +13,7 @@ class payment extends SpreeGestpay.module
         url: '/checkout/payment/process_token.json'
         data:
           token: encriptedString
+          payment_method_id: '5' #TODO
         dataType: "json"
       .done (response) =>
         token = response.token
@@ -26,7 +27,25 @@ class payment extends SpreeGestpay.module
       transKey = result.TransKey
       vbv      = result.VBVRisp
       @log("performed 3D authorization (transKey: #{transKey}, vbv: #{vbv})")
-      # 3D call redirect to authentication page
+
+      $.ajax
+        type: "POST"
+        url: '/checkout/payment/process_3d_redirect.json'
+        data:
+          transKey: transKey
+          vbv: vbv
+          payment_method_id: '5' #TODO
+        dataType: "json"
+      .done (response) =>
+        @log("going to redirect to 3d secure")
+        @log("trying to redirect you here: #{response.redirect}")
+      .fail (response) =>
+        json = $.parseJSON(response.responseText)
+        @log("impossible to redirect - #{json.error}")
+      return
+
+
+
       return
 
     @error("error during authorization", result)

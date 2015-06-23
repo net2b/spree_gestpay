@@ -44,6 +44,14 @@ module Spree
       ActiveMerchant::Billing::Response.new(true, '', {}, {})
     end
 
+    def url3d(secure_3d_callback_url, transkey, vbv)
+      account      = ::Gestpay.config.account
+      url3d        = ::Gestpay::Host.c2s/'pagam/pagam3d.aspx'
+      callback_url = CGI::escape("#{secure_3d_callback_url}?trans_key=#{transkey}")
+
+      "#{url3d}?a=#{account}&b=#{vbv}&c=#{callback_url}"
+    end
+
     def process_payment_result(result)
       Rails.logger.warn "Gestpay Result: #{result.inspect}"
       order = Spree::Order.find_by_number(result.shop_transaction_id)
