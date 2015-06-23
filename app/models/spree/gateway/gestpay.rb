@@ -119,7 +119,7 @@ module Spree
     def get_token(order, opts = {})
       _opts = gestpay_opts(order, nil, opts)
       _opts[:request_token] = 'MASKEDPAN'
-      gateway = Gestpay::Digest.new
+      gateway = ::Gestpay::Digest.new
       gateway.encrypt(_opts)
     end
 
