@@ -32,7 +32,7 @@ class payment extends SpreeGestpay.module
         type: "POST"
         url: '/checkout/payment/process_3d_redirect.json'
         data:
-          transKey: transKey
+          trans_key: transKey
           vbv: vbv
           payment_method_id: '5' #TODO
         dataType: "json"

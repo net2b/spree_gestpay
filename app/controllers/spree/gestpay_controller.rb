@@ -34,10 +34,10 @@ module Spree
 
     def process_3d_redirect
       payment_method = Spree::PaymentMethod.find(params[:payment_method_id])
-      transkey       = params[:transkey]
+      trans_key       = params[:trans_key]
       vbv            = params[:vbv]
 
-      url3d = payment_method.url3d(secure_3d_callback_url, transkey, vbv)
+      url3d = payment_method.url3d(secure_3d_callback_url, trans_key, vbv)
 
       render json: { redirect: url3d }
     end

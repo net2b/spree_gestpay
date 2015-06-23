@@ -44,10 +44,10 @@ module Spree
       ActiveMerchant::Billing::Response.new(true, '', {}, {})
     end
 
-    def url3d(secure_3d_callback_url, transkey, vbv)
+    def url3d(secure_3d_callback_url, trans_key, vbv)
       account      = ::Gestpay.config.account
       url3d        = ::Gestpay::Host.c2s/'pagam/pagam3d.aspx'
-      callback_url = CGI::escape("#{secure_3d_callback_url}?trans_key=#{transkey}")
+      callback_url = CGI::escape("#{secure_3d_callback_url}?trans_key=#{trans_key}")
 
       "#{url3d}?a=#{account}&b=#{vbv}&c=#{callback_url}"
     end
