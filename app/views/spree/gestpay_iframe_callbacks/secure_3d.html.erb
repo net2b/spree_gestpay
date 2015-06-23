@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <style>
+      html, body {
+        height: 100%;
+      }
+
+      #waiting_message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -20px 0 0 -400px;
+        height: 40px;
+        width: 800px;
+        font-family: Arial;
+        font-size: 13px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="wrapper_home">
+      <div class="uppercase bold" id="waiting_message">
+        <%= t("please_wait_order_processed") %>
+        <br/>
+        <%= t("do_not_close_window") %>
+      </div>
+    </div>
+
+    <span class="gestpay-data-3d"
+      data-merchant="<%= gestpay_merchant %>"
+      data-token="<%= session[:token] %>"></span>
+  </body>
+</html>

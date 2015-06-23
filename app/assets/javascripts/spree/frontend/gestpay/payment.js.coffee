@@ -44,10 +44,6 @@ class payment extends SpreeGestpay.module
         @log("impossible to redirect - #{json.error}")
       return
 
-
-
-      return
-
     @error("error during authorization", result)
 
   send: (options) =>
@@ -55,10 +51,22 @@ class payment extends SpreeGestpay.module
 
   callback3d: (result) =>
     if @check(result, GESTPAY_NO_ERROR)
-      response = result.EncryptedString
+      encriptedString = result.EncryptedString
       @log("performed 3D authorization (response: #{response})")
+      $.ajax
+        type: "POST"
+        url: '/checkout/payment/process_token.json'
+        data:
+          token: encriptedString
+          payment_method_id: '5' #TODO
+        dataType: "json"
+      .done (response) =>
+        token = response.token
+        @log("payment is ok #{response.string}")
+      .fail (response) =>
+        json = $.parseJSON(response.responseText)
+        @log("payment is failed - #{json.error}")
       return
-
     @error("error during 3D authorization", result)
 
   send3d: (options) =>
