@@ -1,6 +1,9 @@
 class result3d extends SpreeGestpay.module
   constructor: (@merchant, @token, @transKey, @paRes) ->
 
+  # This is called after a 3D Secure Code page redirects back user to our
+  # website. We expect another payment to be created with 3D Secure Code
+  # information.
   generate: ->
     if @browserSupported()
       @log("iframe initialized")
