@@ -46,6 +46,7 @@ class payment extends SpreeGestpay.module
       .done (response) =>
         @log("going to redirect to 3d secure")
         @log("trying to redirect you here: #{response.redirect}")
+        window.location = response.redirect
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("impossible to redirect - #{json.error}")

@@ -13,6 +13,7 @@ module Spree
       end.result
 
       if result.success?
+        session[:token] = result.encrypted_string
         render json: { token: result.encrypted_string }
       else
         render json: { error: result.error }, status: 500
@@ -34,7 +35,7 @@ module Spree
 
     def process_3d_redirect
       payment_method = Spree::PaymentMethod.find(params[:payment_method_id])
-      trans_key       = params[:trans_key]
+      trans_key      = params[:trans_key]
       vbv            = params[:vbv]
 
       url3d = payment_method.url3d(secure_3d_callback_url, trans_key, vbv)
