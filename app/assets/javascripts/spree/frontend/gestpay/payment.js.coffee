@@ -3,6 +3,11 @@ class payment extends SpreeGestpay.module
   GESTPAY_NO_ERROR_3D = 8006
 
   callback: (result) =>
+
+    # This is called when payment is done correctly without 3D Secure code
+    # redirect needed. We are making a request to complete the order
+    # and we expect response to have a `redirect` param where we are going
+    # to redirect user (order completion path).
     if @check(result, GESTPAY_NO_ERROR)
       @log("result: #{result}")
       encriptedString = result.EncryptedString
@@ -17,12 +22,14 @@ class payment extends SpreeGestpay.module
         dataType: "json"
       .done (response) =>
         token = response.token
-        @log("payment is ok #{response.string}")
+        @log("payment is ok! Redirecting to: #{response.redirect}")
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
       return
 
+    # This is called when the payment need a 3D Secure Code.
+    # We redirect user to the (external) 3D secure code page.
     if @check(result, GESTPAY_NO_ERROR_3D)
       transKey = result.TransKey
       vbv      = result.VBVRisp
@@ -49,6 +56,9 @@ class payment extends SpreeGestpay.module
   send: (options) =>
     GestPay.SendPayment(options, @callback)
 
+  # This is called after a second payment is done, this time with
+  # 3D Secure Code information. If it has no errors a request is made
+  # to complete the order and get the completion path where redirect user to.
   callback3d: (result) =>
     if @check(result, GESTPAY_NO_ERROR)
       encriptedString = result.EncryptedString
@@ -62,7 +72,7 @@ class payment extends SpreeGestpay.module
         dataType: "json"
       .done (response) =>
         token = response.token
-        @log("payment is ok #{response.string}")
+        @log("payment is ok! Redirecting to: #{response.redirect}")
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
