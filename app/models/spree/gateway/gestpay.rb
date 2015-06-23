@@ -8,6 +8,11 @@ module Spree
       false
     end
 
+    def method_type
+      # used to display gestpay payment partial
+      'gestpay'
+    end
+
     def provider_class
       provider.class
     end
