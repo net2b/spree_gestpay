@@ -67,9 +67,13 @@ class payment extends SpreeGestpay.module
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
       return
+
     @error("error during 3D authorization", result)
 
   send3d: (options) =>
+    @log("sendind payment after 3d verification")
+    @log("#{options.TransKey}")
+    @log("#{options.PARes}")
     GestPay.SendPayment(options, @callback3d)
 
   gestpayModuleName: ->

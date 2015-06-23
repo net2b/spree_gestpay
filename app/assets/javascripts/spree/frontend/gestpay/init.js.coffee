@@ -11,4 +11,6 @@ $ ->
   if $gestpay3d.length > 0
     merchant    = $gestpay3d.data("merchant")
     token       = $gestpay3d.data("token")
-    new SpreeGestpay.result3d(merchant, token).generate()
+    transKey    = $gestpay3d.data("transkey")
+    paRes       = $gestpay3d.data("pares")
+    new SpreeGestpay.result3d(merchant, token, transKey, paRes).generate()

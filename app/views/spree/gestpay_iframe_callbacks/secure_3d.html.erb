@@ -29,8 +29,17 @@
       </div>
     </div>
 
+    <%= pares = 'test' %>
+    <%# pares = j (params["PaRes"].gsub(/\s+/, "")) %>
+
     <span class="gestpay-data-3d"
       data-merchant="<%= gestpay_merchant %>"
-      data-token="<%= session[:token] %>"></span>
+      data-token="<%= session[:token] %>"
+      data-transkey="<%= params[:trans_key] %>"
+      data-pares="<%= 'test' %>">
+    </span>
+
+    <%= gestpay_iframe_script %>
+    <%= gestpay_stub_scripts %>
   </body>
 </html>

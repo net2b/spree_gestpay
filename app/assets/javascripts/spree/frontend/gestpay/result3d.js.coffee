@@ -1,9 +1,13 @@
 class result3d extends SpreeGestpay.module
-  constructor: (@merchant, @token) ->
+  constructor: (@merchant, @token, @transKey, @paRes) ->
 
   generate: ->
     if @browserSupported()
       @log("iframe initialized")
+      @log(@merchant)
+      @log(@token)
+      @log(@transKey)
+      @log(@paRes)
       @createPaymentPage()
     else
       @log("browser not supported")
@@ -31,23 +35,13 @@ class result3d extends SpreeGestpay.module
     if @check(result, GESTPAY_LOAD_NO_ERROR)
       @log("iframe loaded!")
       payment = new SpreeGestpay.payment()
-      payment.send3d()
+      payment.send3d
+        'TransKey': @transKey
+        'PARes':    @paRes
     else
       @error("error loading iframe", result)
-
-  registerSendPayment: =>
-    $('input[type=submit].continue').on 'click', (e) =>
-      e.preventDefault()
-      f = new form()
-
-      payment = new SpreeGestpay.payment()
-      payment.send
-        CC:    f.cardNumber()
-        EXPMM: f.cardExpiration().month
-        EXPYY: f.cardExpiration().year
-        CVV2:  f.cardSecureCode()
 
   gestpayModuleName: ->
     "result3d"
 
-@SpreeGestpay.iframe = iframe
+@SpreeGestpay.result3d = result3d
