@@ -36,7 +36,7 @@
       data-merchant="<%= gestpay_merchant %>"
       data-token="<%= session[:token] %>"
       data-transkey="<%= @trans_key %>"
-      data-pares="<%= @pares %>">
+      data-pares="<%= j(@pares) %>">
     </span>
 
     <%= gestpay_iframe_script %>
