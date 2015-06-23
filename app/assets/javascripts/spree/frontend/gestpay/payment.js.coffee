@@ -5,9 +5,21 @@ class payment extends SpreeGestpay.module
   callback: (result) =>
     if @check(result, GESTPAY_NO_ERROR)
       @log("result: #{result}")
-      response = result.EncryptedResponse
-      @log("performed authorization (response: #{response})")
-      # normal call access Result.EncryptedResponse
+      encriptedString = result.EncryptedString
+      @log("performed authorization (encriptedString: #{encriptedString})")
+      @log("translating response with an ajax call...")
+      $.ajax
+        type: "POST"
+        url: '/checkout/payment/process_token.json'
+        data:
+          token: encriptedString
+        dataType: "json"
+      .done (response) =>
+        token = response.token
+        @log("payment is ok #{response.string}")
+      .fail (response) =>
+        json = $.parseJSON(response.responseText)
+        @log("payment is failed - #{json.error}")
       return
 
     if @check(result, GESTPAY_NO_ERROR_3D)
@@ -24,7 +36,7 @@ class payment extends SpreeGestpay.module
 
   callback3d: (result) =>
     if @check(result, GESTPAY_NO_ERROR)
-      response = result.EncryptedResponse
+      response = result.EncryptedString
       @log("performed 3D authorization (response: #{response})")
       return
 
