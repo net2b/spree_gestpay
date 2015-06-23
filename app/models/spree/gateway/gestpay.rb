@@ -115,5 +115,30 @@ module Spree
         return payment
       end
     end
+
+    def get_token(order, opts = {})
+      _opts = gestpay_opts(order, nil, opts)
+      _opts[:request_token] = 'MASKEDPAN'
+      gateway = Gestpay::Digest.new
+      gateway.encrypt(_opts)
+    end
+
+    def gestpay_opts(order, account = nil, opts = {})
+      # ANT-272
+      opts[:buyer_email] = order.email unless opts[:buyer_email].present?
+
+      opts[:buyer_name] = order.bill_address.full_name
+      opts[:uic_code] = 242
+      opts[:amount] = order.total
+      opts[:shop_transaction_id] = order.number
+      opts[:language_id] = 2 unless opts[:language_id].present?
+      opts[:token_value] = account.token if account
+
+      # Always merge gestpay opts with RED data
+      opts.merge!(Spree::RedOrderPresenter.new(order).red_data)
+
+      Rails.logger.warn opts.inspect
+      opts
+    end
   end
 end
