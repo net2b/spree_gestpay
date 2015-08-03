@@ -18,7 +18,7 @@ class payment extends SpreeGestpay.module
         url: '/checkout/payment/process_token.json'
         data:
           token: encriptedString
-          payment_method_id: '5' #TODO
+          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         token = response.token
@@ -41,7 +41,7 @@ class payment extends SpreeGestpay.module
         data:
           trans_key: transKey
           vbv: vbv
-          payment_method_id: '5' #TODO
+          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         @log("going to redirect to 3d secure")
@@ -61,19 +61,23 @@ class payment extends SpreeGestpay.module
   # 3D Secure Code information. If it has no errors a request is made
   # to complete the order and get the completion path where redirect user to.
   callback3d: (result) =>
+    @log("result: #{result}")
+    @log("expected: #{GESTPAY_NO_ERROR}")
+
     if @check(result, GESTPAY_NO_ERROR)
       encriptedString = result.EncryptedString
-      @log("performed 3D authorization (response: #{response})")
+      @log("performed 3D authorization (result: #{result})")
       $.ajax
         type: "POST"
         url: '/checkout/payment/process_token.json'
         data:
           token: encriptedString
-          payment_method_id: '5' #TODO
+          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         token = response.token
         @log("payment is ok! Redirecting to: #{response.redirect}")
+        window.location = response.redirect
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
@@ -83,6 +87,9 @@ class payment extends SpreeGestpay.module
 
   send3d: (options) =>
     @log("sendind payment after 3d verification")
+
+    console.log(options)
+
     @log("#{options.TransKey}")
     @log("#{options.PARes}")
     GestPay.SendPayment(options, @callback3d)
