@@ -27,7 +27,7 @@ module Spree
         payment_method = Spree::PaymentMethod.find_by_type(Spree::Gateway::Gestpay)
         payment = payment_method.process_payment_result(result)
 
-        render json: { token: result.data, redirect: gestpay_completion_path }
+        render json: { token: result.data, redirect: gestpay_completion_path(@current_order.number) }
       else
         render json: { error: result.error }, status: 500
       end
@@ -44,9 +44,15 @@ module Spree
     end
 
     def completion
-      order = current_order
-      session[:order_id] = nil
-      redirect_to order_path(order), notice: 'Order successful'
+      @current_order = nil
+
+      if order = Spree::Order.find_by_number(params[:order_number])
+        flash.notice = Spree.t(:order_processed_successfully)
+        flash['order_completed'] = true # Useful to trigger marketing conversions
+        redirect_to spree.order_path(order)
+      else
+        redirect_to spree.root_path
+      end
     end
   end
 end

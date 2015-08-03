@@ -22,7 +22,7 @@ module Spree
     end
 
     def actions
-      %w(capture void)
+      %w(capture authorize void)
     end
 
     # Indicates whether its possible to capture the payment
@@ -34,6 +34,10 @@ module Spree
     def can_void?(payment)
       payment.state != 'void'
     end
+
+    def can_authorize?(payment)
+      ['checkout', 'pending'].include?(payment.state)
+    end
     #######################################################################
 
     def capture(*_args)
@@ -41,6 +45,10 @@ module Spree
     end
 
     def void(*_args)
+      ActiveMerchant::Billing::Response.new(true, '', {}, {})
+    end
+
+    def authorize(*_args)
       ActiveMerchant::Billing::Response.new(true, '', {}, {})
     end
 
@@ -66,7 +74,10 @@ module Spree
       end
 
       if order.state == 'payment'
-        account = nil
+        # Account used as source of the payment. By default it is the
+        # payment gateway itself. If an user is associated to the order
+        # it will use the GestpayAccount associated.
+        account = self
         # try will not raise in Rails 4 if the 'token' method does not exists. Rails 3 will.
         # result will not respond_to token, so we have to skip this check.
         begin
@@ -92,21 +103,21 @@ module Spree
           Rails.logger.warn 'GestPay token not valid, skipping saving account'
         end
 
-        payment = order.payments.build(
+        payment = order.payments.create(
           amount: result.amount,
           payment_method_id: id
         )
         payment.source = account
-        payment.started_processing!
 
         Rails.logger.warn "Processing payment #{ payment.id }"
-
         Rails.logger.warn "Updating order state: from #{order.state}"
-        if result.success? && order.next
-          payment.pend!
+
+        if result.success?
+          order.next
           Rails.logger.warn "Updating order state: to #{order.state}"
           Rails.logger.warn "Updating order state: finalized: #{order.state}"
         else
+          payment.started_processing!
           payment.failure!
         end
 
@@ -114,31 +125,6 @@ module Spree
 
         return payment
       end
-    end
-
-    def get_token(order, opts = {})
-      _opts = gestpay_opts(order, nil, opts)
-      _opts[:request_token] = 'MASKEDPAN'
-      gateway = ::Gestpay::Digest.new
-      gateway.encrypt(_opts)
-    end
-
-    def gestpay_opts(order, account = nil, opts = {})
-      # ANT-272
-      opts[:buyer_email] = order.email unless opts[:buyer_email].present?
-
-      opts[:buyer_name] = order.bill_address.full_name
-      opts[:uic_code] = 242
-      opts[:amount] = order.total
-      opts[:shop_transaction_id] = order.number
-      opts[:language_id] = 2 unless opts[:language_id].present?
-      opts[:token_value] = account.token if account
-
-      # Always merge gestpay opts with RED data
-      opts.merge!(Spree::RedOrderPresenter.new(order).red_data)
-
-      Rails.logger.warn opts.inspect
-      opts
     end
   end
 end
