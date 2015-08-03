@@ -39,8 +39,8 @@ class result3d extends SpreeGestpay.module
       @log("iframe loaded!")
       payment = new SpreeGestpay.payment()
       payment.send3d
-        TransKey: @transKey
-        PARes:    @paRes
+        'TransKey': @transKey.toString()
+        'PARes':    @paRes
     else
       @error("error loading iframe", result)
 
