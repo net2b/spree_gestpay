@@ -18,7 +18,6 @@ class payment extends SpreeGestpay.module
         url: '/checkout/payment/process_token.json'
         data:
           token: encriptedString
-          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         token = response.token
@@ -41,7 +40,6 @@ class payment extends SpreeGestpay.module
         data:
           trans_key: transKey
           vbv: vbv
-          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         @log("going to redirect to 3d secure")
@@ -72,7 +70,6 @@ class payment extends SpreeGestpay.module
         url: '/checkout/payment/process_token.json'
         data:
           token: encriptedString
-          payment_method_id: '9' #TODO
         dataType: "json"
       .done (response) =>
         token = response.token
