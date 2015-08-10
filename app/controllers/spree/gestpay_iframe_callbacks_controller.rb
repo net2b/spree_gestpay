@@ -8,5 +8,9 @@ module Spree
       @pares     = params["PaRes"].gsub(/\s+/, "")
       @trans_key = params[:trans_key]
     end
+
+    def secure_ko
+      redirect_to spree.checkout_state_url(:payment), flash: { error: I18n.t(:generic_error, scope: :gestpay) }
+    end
   end
 end

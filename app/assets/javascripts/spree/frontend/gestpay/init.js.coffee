@@ -13,4 +13,10 @@ $ ->
     token       = $gestpay3d.data("token")
     transKey    = $gestpay3d.data("transkey")
     paRes       = $gestpay3d.data("pares")
-    new SpreeGestpay.result3d(merchant, token, transKey, paRes).generate()
+    koUrl       = $gestpay3d.data("ko-url")
+
+    result3d = new SpreeGestpay.result3d(merchant, token, transKey, paRes, koUrl)
+    result3d.generate()
+
+    # We need to retrieve the result3D koUrl variable later.
+    window.result3d = result3d

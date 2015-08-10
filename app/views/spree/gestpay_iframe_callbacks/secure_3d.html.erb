@@ -23,20 +23,18 @@
   <body>
     <div id="wrapper_home">
       <div class="uppercase bold" id="waiting_message">
-        <%= t("please_wait_order_processed") %>
+        <%= I18n.t(:please_wait_order_processed, scope: :gestpay) %>
         <br/>
-        <%= t("do_not_close_window") %>
+        <%= I18n.t(:do_not_close_window, scope: :gestpay) %>
       </div>
     </div>
-
-    <%# pares = 'test' %>
-    <%# pares = j (params["PaRes"].gsub(/\s+/, "")) %>
 
     <span class="gestpay-data-3d"
       data-merchant="<%= gestpay_merchant %>"
       data-token="<%= session[:token] %>"
       data-transkey="<%= @trans_key %>"
-      data-pares="<%= j(@pares) %>">
+      data-pares="<%= j(@pares) %>"
+      data-ko-url="<%= spree.secure_3d_ko_callback_url %>">
     </span>
 
     <%= gestpay_iframe_script %>

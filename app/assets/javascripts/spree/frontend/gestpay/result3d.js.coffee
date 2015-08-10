@@ -1,5 +1,5 @@
 class result3d extends SpreeGestpay.module
-  constructor: (@merchant, @token, @transKey, @paRes) ->
+  constructor: (@merchant, @token, @transKey, @paRes, @koUrl) ->
 
   # This is called after a 3D Secure Code page redirects back user to our
   # website. We expect another payment to be created with 3D Secure Code
@@ -42,6 +42,7 @@ class result3d extends SpreeGestpay.module
         'TransKey': @transKey.toString()
         'PARes':    @paRes
     else
+      window.location = @koUlr
       @error("error loading iframe", result)
 
   gestpayModuleName: ->
