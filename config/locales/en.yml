@@ -1,5 +1,5 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  gestpay:
+    generic_error: There has been an error with your credit card, please try again
+    please_wait_order_processed: Please wait while your order is being processed
+    do_not_close_window: Do not close the window or click the back button
