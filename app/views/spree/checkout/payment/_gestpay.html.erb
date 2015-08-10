@@ -45,5 +45,5 @@
   <%= gestpay_iframe_script %>
   <%= gestpay_stub_scripts %>
 
-  <%= submit_tag "Pay with #{payment_method.name}", class: 'continue' %>
+  <%= submit_tag "Loading", class: 'continue', id: 'js-gestpay-submit-button', data: { active_text: "Pay with #{payment_method.name}", inactive_text: "Loading" }, disabled: true %>
 <% end %>

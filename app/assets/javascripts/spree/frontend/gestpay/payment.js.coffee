@@ -51,6 +51,7 @@ class payment extends SpreeGestpay.module
       return
 
     @error("error during authorization", result)
+    @enableSubmit()
 
   send: (options) =>
     GestPay.SendPayment(options, @callback)

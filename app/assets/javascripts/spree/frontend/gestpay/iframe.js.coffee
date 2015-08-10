@@ -14,11 +14,13 @@ class form
 
 class iframe extends SpreeGestpay.module
   constructor: (@merchant, @tokenPath, @transaction, @amount) ->
+    super()
 
   generate: ->
     if @browserSupported()
       @log("iframe initialized")
       @getToken()
+      @disableSubmit()
     else
       @log("browser not supported")
 
@@ -60,12 +62,14 @@ class iframe extends SpreeGestpay.module
     # comparing them
     if @check(result, GESTPAY_LOAD_NO_ERROR)
       @log("iframe loaded!")
+      @enableSubmit()
       @registerSendPayment()
     else
       @error("error loading iframe", result)
 
   registerSendPayment: =>
-    $('input[type=submit].continue').on 'click', (e) =>
+    @submitButton.on 'click', (e) =>
+      @disableSubmit()
       e.preventDefault()
       f = new form()
 
