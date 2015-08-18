@@ -1,15 +1,9 @@
 module Spree
   class GestpayController < StoreController
     def get_token
-      amount = if Rails.env.development?
-        '0.1'
-      else
-        params[:amount]
-      end
-
       result = Gestpay::Token.new do |t|
         t.transaction = params[:transaction]
-        t.amount      = amount
+        t.amount      = params[:amount]
       end.result
 
       if result.success?

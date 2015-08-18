@@ -13,6 +13,10 @@ module Spree
       'gestpay'
     end
 
+    def is_gestpay?
+      true
+    end
+
     def provider_class
       provider.class
     end
@@ -124,6 +128,18 @@ module Spree
         Rails.logger.warn "Payment processed #{ payment.id } (#{ payment.state }) for order #{ payment.order.number } (#{payment.order.state})"
 
         return payment
+      end
+    end
+
+    def reusable_sources(order)
+      if order.completed?
+        sources_by_order order
+      else
+        if order.user_id
+          order.user.gestpay_accounts
+        else
+          []
+        end
       end
     end
   end
