@@ -1,9 +1,6 @@
 @SpreeGestpay = {}
 
 class module
-  constructor: ->
-    @submitButton = $('#js-gestpay-submit-button')
-
   check: (result, expected) =>
     parseInt(result.ErrorCode) == expected
 
@@ -16,11 +13,5 @@ class module
 
   gestpayModuleName: ->
     undefined
-
-  disableSubmit: ->
-    @submitButton.prop('disabled', true).val(@submitButton.data('inactive-text'))
-
-  enableSubmit: ->
-    @submitButton.prop('disabled', false).val(@submitButton.data('active-text'))
 
 SpreeGestpay.module = module
