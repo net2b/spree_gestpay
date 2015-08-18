@@ -15,6 +15,6 @@ Spree::Core::Engine.routes.draw do
       as: :gestpay_completion
 
   match '/gestpay_iframe_secure_3d'                  => 'gestpay_iframe_callbacks#secure_3d',    via: [:post, :get], as: :secure_3d_callback
-  match '/gestpay_iframe_secure_3d_ws/:order_number' => 'gestpay_iframe_callbacks#secure_3d_ws', via: [:post, :get], as: :secure_3d_callback_ws
+  match '/gestpay_iframe_secure_3d_ws/:order_number' => 'gestpay_iframe_callbacks#secure_3d_ws', via: :post,         as: :secure_3d_callback_ws
   match '/gestpay_iframe_secure_3d_ko'               => 'gestpay_iframe_callbacks#secure_ko',    via: :get,          as: :secure_3d_ko_callback
 end
