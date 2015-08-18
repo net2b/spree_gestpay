@@ -26,17 +26,19 @@ module Spree
         t.pares       = params[:PaRes]
       end.payment
 
-      payment = payment_method.process_payment_result(result)
+      if result.success?
+        payment = payment_method.process_payment_result(result)
 
-      if payment.try(:pending?)
-        # Order completion routine
-        @current_order = nil
-        flash.notice = Spree.t(:order_processed_successfully)
-        flash['order_completed'] = true
-        redirect_to spree.order_path(order)
-      else
-        redirect_to spree.checkout_state_path(:payment), alert: result.error
+        if payment.try(:pending?)
+          # Order completion routine
+          @current_order = nil
+          flash.notice = Spree.t(:order_processed_successfully)
+          flash['order_completed'] = true
+          return redirect_to spree.order_path(order)
+        end
       end
+
+      redirect_to spree.checkout_state_path(:payment), alert: result.error
     end
   end
 end
