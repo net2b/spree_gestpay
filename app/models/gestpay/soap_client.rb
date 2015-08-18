@@ -8,6 +8,7 @@ module Gestpay
       reset
       @client.globals[:logger] = logger
       @client.globals[:log]    = true
+
       message = message.merge(shop_login: Gestpay.config.account)
       @client.call(method, message: message)
     end

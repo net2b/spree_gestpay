@@ -84,6 +84,7 @@ class payment extends SpreeGestpay.module
       return
 
     @error("error during 3D authorization", result)
+    window.location = window.result3d.koUrl
 
   send3d: (options) =>
     @log("sendind payment after 3d verification")

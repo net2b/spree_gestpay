@@ -4,6 +4,12 @@ class Spree::GestpayAccount < ActiveRecord::Base
   validates :token, presence: true
   before_create :set_last_digits
 
+  alias_attribute :profile_token, :token
+
+  def expiry_date
+    "#{month}/#{year}"
+  end
+
   def actions
     %w{capture void}
   end
@@ -20,6 +26,10 @@ class Spree::GestpayAccount < ActiveRecord::Base
 
   def crypted_number
     "XXXX XXXX XXXX #{last_digits}"
+  end
+
+  def presentation
+    Spree.t(:credit_card_profile, expiry_date: expiry_date, last_digits: last_digits)
   end
 
   private

@@ -9,6 +9,12 @@ class form
   cardSecureCode: ->
     @get 'card_code'
 
+  account: ->
+    @get 'account'
+
+  submit: ->
+    $('#js-gestpay-form').trigger('submit')
+
   get: (id) ->
     $("##{id}").val()
 
@@ -72,13 +78,15 @@ class iframe extends SpreeGestpay.module
       @disableSubmit()
       e.preventDefault()
       f = new form()
-
-      payment = new SpreeGestpay.payment()
-      payment.send
-        CC:    f.cardNumber()
-        EXPMM: f.cardExpiration().month
-        EXPYY: f.cardExpiration().year
-        CVV2:  f.cardSecureCode()
+      if f.account()
+        f.submit()
+      else
+        payment = new SpreeGestpay.payment()
+        payment.send
+          CC:    f.cardNumber()
+          EXPMM: f.cardExpiration().month
+          EXPYY: f.cardExpiration().year
+          CVV2:  f.cardSecureCode()
 
   gestpayModuleName: ->
     "iframe"

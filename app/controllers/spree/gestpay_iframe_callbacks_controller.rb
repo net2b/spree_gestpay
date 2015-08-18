@@ -1,8 +1,10 @@
 module Spree
+  # TODO: change this controller name or split it since not every actions
+  # here come from iframe
   class GestpayIframeCallbacksController < Spree::BaseController
     include Spree::Core::ControllerHelpers::Order
 
-    protect_from_forgery except: [:secure_3d]
+    protect_from_forgery except: [:secure_3d, :secure_3d_ws]
 
     def secure_3d
       @pares     = params["PaRes"].gsub(/\s+/, "")
@@ -11,6 +13,30 @@ module Spree
 
     def secure_ko
       redirect_to spree.checkout_state_url(:payment), flash: { error: I18n.t(:generic_error, scope: :gestpay) }
+    end
+
+    def secure_3d_ws
+      order = Spree::Order.find_by_number(params[:order_number])
+      payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay')
+
+      result = Gestpay::Token.new do |t|
+        t.transaction = order.number
+        t.amount      = order.total
+        t.trans_key   = params[:trans_key]
+        t.pares       = params[:PaRes]
+      end.payment
+
+      payment = payment_method.process_payment_result(result)
+
+      if payment.try(:pending?)
+        # Order completion routine
+        @current_order = nil
+        flash.notice = Spree.t(:order_processed_successfully)
+        flash['order_completed'] = true
+        redirect_to spree.order_path(order)
+      else
+        redirect_to spree.checkout_state_path(:payment), alert: result.error
+      end
     end
   end
 end

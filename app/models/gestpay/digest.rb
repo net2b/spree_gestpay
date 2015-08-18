@@ -21,6 +21,5 @@ module Gestpay
       response_content[:custom_info] = decode(response_content[:custom_info]) if response_content[:custom_info]
       Result::Digest.new(response_content)
     end
-
   end
 end
