@@ -20,14 +20,8 @@ class form
 
 class iframe extends SpreeGestpay.module
   constructor: (@merchant, @tokenPath, @transaction, @amount) ->
-    @submitButton  = $('#js-gestpay-submit-button')
+    super()
     @profileSelect = $('#account')
-
-  disableSubmit: ->
-    @submitButton.prop('disabled', true).val(@submitButton.data('inactive-text'))
-
-  enableSubmit: ->
-    @submitButton.prop('disabled', false).val(@submitButton.data('active-text'))
 
   handleProfileChages: ->
     @setCreditCardFields()

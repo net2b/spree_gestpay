@@ -1,11 +1,23 @@
 @SpreeGestpay = {}
 
 class module
+  constructor: ->
+    @submitButton = $('#js-gestpay-submit-button')
+    @errorDiv     = $('#js-gestpay-errors')
+
+  disableSubmit: ->
+    @submitButton.prop('disabled', true).val(@submitButton.data('inactive-text'))
+    @errorDiv.hide()
+
+  enableSubmit: ->
+    @submitButton.prop('disabled', false).val(@submitButton.data('active-text'))
+
   check: (result, expected) =>
     parseInt(result.ErrorCode) == expected
 
   error: (string, result) =>
     @log("#{string}: '#{result.ErrorDescription}' (#{result.ErrorCode})")
+    @errorDiv.html(result.ErrorDescription).show()
 
   log: (string) ->
     @logger ||= new SpreeGestpay.logger(@gestpayModuleName())
