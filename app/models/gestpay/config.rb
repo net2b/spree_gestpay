@@ -3,8 +3,8 @@ module Gestpay
     attr_accessor :environment, :account
 
     def initialize
-      @environment = ENV['GESTPAY_ENVIRONMENT'] || :test
-      @account     = ENV['GESTPAY_ACCOUNT']
+      @environment = Rails.env.production? ? :production : :test
+      @account     = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay').preferred_merchant_id || ENV['GESTPAY_ACCOUNT']
     end
   end
 end
