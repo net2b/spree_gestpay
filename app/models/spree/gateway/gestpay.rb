@@ -1,5 +1,7 @@
 module Spree
   class Gateway::Gestpay < Gateway
+    preference :merchant_id, :string
+
     def supports?(source)
       true
     end
@@ -93,12 +95,6 @@ module Spree
               account.month = result.token_expiry_month
               account.year = result.token_expiry_year
               account.save
-              if user && user.gestpay_accounts.size == 1
-                user.update_attributes(
-                  preferred_payment_method_id: Spree::Config[:payment_method_gestpay_account_id],
-                  preferred_gestpay_account_index: 0
-                )
-              end
 
               Rails.logger.warn "GestPay Account saved #{ account.id }"
             end
