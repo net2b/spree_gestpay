@@ -25,7 +25,10 @@ class payment extends SpreeGestpay.module
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
+        @error("error during authorization", result)
+        @enableSubmit()
       return
+
 
     # This is called when the payment need a 3D Secure Code.
     # We redirect user to the (external) 3D secure code page.
@@ -54,6 +57,8 @@ class payment extends SpreeGestpay.module
     @enableSubmit()
 
   send: (options) =>
+    console.log(options)
+
     GestPay.SendPayment(options, @callback)
 
   # This is called after a second payment is done, this time with
