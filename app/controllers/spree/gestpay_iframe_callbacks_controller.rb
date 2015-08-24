@@ -20,6 +20,7 @@ module Spree
       payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay')
 
       result = Gestpay::Token.new do |t|
+        t.language    = gestpay_current_locale.to_s
         t.transaction = order.number
         t.amount      = order.total
         t.trans_key   = params[:trans_key]
@@ -39,6 +40,13 @@ module Spree
       end
 
       redirect_to spree.checkout_state_path(:payment), alert: result.error
+    end
+
+    private
+
+    def gestpay_current_locale
+      # TODO: should be overwritten in histreet with current_locale
+      I18n.locale
     end
   end
 end

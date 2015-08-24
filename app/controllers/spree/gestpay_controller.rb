@@ -2,6 +2,7 @@ module Spree
   class GestpayController < StoreController
     def get_token
       result = Gestpay::Token.new do |t|
+        t.language    = gestpay_current_locale.to_s
         t.transaction = params[:transaction]
         t.amount      = params[:amount]
       end.result
@@ -47,6 +48,13 @@ module Spree
       else
         redirect_to spree.root_path
       end
+    end
+
+    private
+
+    def gestpay_current_locale
+      # TODO: should be overwritten in histreet with current_locale
+      I18n.locale
     end
   end
 end
