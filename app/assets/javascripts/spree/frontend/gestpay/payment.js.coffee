@@ -25,7 +25,7 @@ class payment extends SpreeGestpay.module
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
-        @error("error during authorization", result)
+        @error(json.error)
         @enableSubmit()
       return
 

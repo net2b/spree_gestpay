@@ -16,8 +16,15 @@ class module
     parseInt(result.ErrorCode) == expected
 
   error: (string, result) =>
-    @log("#{string}: '#{result.ErrorDescription}' (#{result.ErrorCode})")
-    @errorDiv.html(result.ErrorDescription).show()
+    logString = string
+    htmlString = string
+
+    if result
+      logString += ": '#{result.ErrorDescription}' (#{result.ErrorCode})"
+      htmlString = result.ErrorDescription
+
+    @log(logString)
+    @errorDiv.html(htmlString).show()
 
   log: (string) ->
     @logger ||= new SpreeGestpay.logger(@gestpayModuleName())
