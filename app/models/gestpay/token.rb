@@ -6,7 +6,7 @@ module Gestpay
       :pares)
 
       def language=(language)
-        self.language_id = language.code
+        self.language_id = Language.new(language).code
       end
 
       def currency=(currency)

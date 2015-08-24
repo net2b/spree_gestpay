@@ -27,6 +27,7 @@ Spree::CheckoutController.class_eval do
     result = Gestpay::Token.new do |t|
       t.transaction = @order.number
       t.amount      = @order.total
+      t.language    = gestpay_current_locale.to_s
       t.cvv         = params[:payment_source].first.last[:verification_value]
       t.token_value = account.token
       t.buyer_email = @order.email
@@ -54,5 +55,10 @@ Spree::CheckoutController.class_eval do
   def check_for_cvv
     # TODO: refactor, find a more solid way to check cvv presence
     params[:payment_source].first.last[:verification_value].match(/\d{3,4}/)
+  end
+
+  def gestpay_current_locale
+    # TODO: should be overwritten in histreet with current_locale
+    I18n.locale
   end
 end

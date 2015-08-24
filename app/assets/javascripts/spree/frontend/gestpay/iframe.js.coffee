@@ -25,7 +25,9 @@ class iframe extends SpreeGestpay.module
 
   handleProfileChages: ->
     @setCreditCardFields()
-    @profileSelect.on 'change', @setCreditCardFields
+
+    if @hasProfiles()
+      @profileSelect.on 'change', @setCreditCardFields
 
   hasProfiles: ->
     @profileSelect.is('*')
@@ -33,7 +35,7 @@ class iframe extends SpreeGestpay.module
   setCreditCardFields: =>
     selectedProfile = @profileSelect.find(':selected')
 
-    if selectedProfile.data('new-card')
+    if !@hasProfiles() or selectedProfile.data('new-card')
       $('.js-hide-with-profile').show()
     else
       $('.js-hide-with-profile').hide()
@@ -43,7 +45,7 @@ class iframe extends SpreeGestpay.module
       @log("iframe initialized")
       @getToken()
       @disableSubmit()
-      @handleProfileChages() if @hasProfiles
+      @handleProfileChages()
     else
       @log("browser not supported")
 
