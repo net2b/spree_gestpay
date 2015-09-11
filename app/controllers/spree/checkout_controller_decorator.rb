@@ -7,16 +7,16 @@ Spree::CheckoutController.class_eval do
     # This will be called during any update action, so we need to make sure we're at the right step
     return unless (params[:state] == "payment")
     # Checks that a form with payments attributes has been submitted
-    return unless params[:order][:payments_attributes]
+    return unless (params[:order] || {})[:payments_attributes]
 
     # Sets the instance variable
-    @payment_method = Spree::PaymentMethod.find(params[:order][:payments_attributes].first[:payment_method_id])
-    return unless @payment_method.respond_to?(:is_gestpay?) && @payment_method.is_gestpay?
+    payment_method = Spree::PaymentMethod.find(params[:order][:payments_attributes].first[:payment_method_id])
+    return unless payment_method.respond_to?(:is_gestpay?) && payment_method.is_gestpay?
 
-    process_gestpay_unlimited
+    process_gestpay_unlimited(payment_method)
   end
 
-  def process_gestpay_unlimited
+  def process_gestpay_unlimited(payment_method)
     unless check_for_cvv
       return redirect_to checkout_state_path(:payment), alert: t('cvv_not_correct')
     end
@@ -35,7 +35,7 @@ Spree::CheckoutController.class_eval do
     end.payment
 
     if result.success?
-      payment = @payment_method.process_payment_result(result)
+      payment = payment_method.process_payment_result(result)
 
       # Order completion routine
       @current_order = nil
@@ -46,7 +46,7 @@ Spree::CheckoutController.class_eval do
       trans_key = result.transaction_key
       vbv       = result.visa_encrypted_string
 
-      return redirect_to @payment_method.url3d(secure_3d_callback_ws_url(@order), trans_key, vbv)
+      return redirect_to payment_method.url3d(secure_3d_callback_ws_url(@order), trans_key, vbv)
     else
       return redirect_to checkout_state_path(:payment), alert: result.error
     end
