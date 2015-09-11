@@ -7,7 +7,7 @@ Spree::CheckoutController.class_eval do
     # This will be called during any update action, so we need to make sure we're at the right step
     return unless (params[:state] == "payment")
     # Checks that a form with payments attributes has been submitted
-    return unless params[:order][:payments_attributes]
+    return unless (params[:order] || {})[:payments_attributes]
 
     # Sets the instance variable
     payment_method = Spree::PaymentMethod.find(params[:order][:payments_attributes].first[:payment_method_id])
