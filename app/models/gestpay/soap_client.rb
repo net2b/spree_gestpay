@@ -14,7 +14,7 @@ module Gestpay
     end
 
     def logger
-      @logger ||= ParseLogger.new
+      @logger ||= Rails.logger
     end
 
     private
