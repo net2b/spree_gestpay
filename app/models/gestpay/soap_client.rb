@@ -1,7 +1,7 @@
 module Gestpay
   class SoapClient
     def initialize(args)
-      @client = Savon.client(args.merge(logger: logger, log: true))
+      @client = Savon.client(args.merge(logger: logger, log: true, log_level: :debug))
     end
 
     def call(method, message)
