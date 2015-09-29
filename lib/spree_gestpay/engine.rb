@@ -11,6 +11,10 @@ module SpreeGestpay
       g.test_framework :rspec
     end
 
+    config.before_configuration do
+      Rails.configuration.savon_logger = ActiveSupport::Logger.new(Rails.root.join('log', 'savon.log'))
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
