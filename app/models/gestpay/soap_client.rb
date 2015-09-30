@@ -14,7 +14,7 @@ module Gestpay
     end
 
     def logger
-      @logger ||= Rails.configuration.savon_logger
+      @logger ||= Rails.configuration.gestpay_logger
     end
 
     private
