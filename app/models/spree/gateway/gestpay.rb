@@ -58,6 +58,13 @@ module Spree
       ActiveMerchant::Billing::Response.new(true, '', {}, {})
     end
 
+    def cancel(response_code)
+      ActiveMerchant::Billing::Response.new(
+        true,
+        Spree.t('global_collect.payment_canceled')
+      )
+    end
+
     def url3d(secure_3d_callback_url, trans_key, vbv)
       account      = ::Gestpay.config.account
       url3d        = ::Gestpay::Host.c2s/'pagam/pagam3d.aspx'

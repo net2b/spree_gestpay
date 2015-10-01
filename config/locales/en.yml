@@ -3,3 +3,4 @@ en:
     generic_error: There has been an error with your credit card, please try again
     please_wait_order_processed: Please wait while your order is being processed
     do_not_close_window: Do not close the window or click the back button
+    payment_canceled: The payment has been canceled
