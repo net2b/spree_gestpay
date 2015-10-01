@@ -28,7 +28,7 @@ module Spree
     end
 
     def actions
-      %w(capture authorize void)
+      %w(capture void)
     end
 
     # Indicates whether its possible to capture the payment
