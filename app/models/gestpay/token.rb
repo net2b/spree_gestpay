@@ -33,9 +33,9 @@ module Gestpay
       end
     end
 
-    def initialize
+    def initialize(tokenization_enabled = nil)
       @options = Builder.new
-      # @options.request_token = "MASKEDPAN"
+      @options.request_token = "MASKEDPAN" if tokenization_enabled
       @options.language      = Language.default
       @options.currency      = Currency.default
       @options.shop_login    = Gestpay.config.account
