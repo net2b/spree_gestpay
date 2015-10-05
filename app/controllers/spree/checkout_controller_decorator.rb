@@ -17,19 +17,23 @@ Spree::CheckoutController.class_eval do
   end
 
   def process_gestpay_unlimited(payment_method)
+    account = nil
+
     unless check_for_cvv
       return redirect_to checkout_state_path(:payment), alert: t('cvv_not_correct')
     end
 
-    # account = Spree::GestpayAccount.find(params[:account].to_i)
-    # return unless account.user == current_user
+    if payment_method.can_tokenize?
+      account = Spree::GestpayAccount.find(params[:account].to_i)
+      return unless account.user == current_user
+    end
 
-    result = Gestpay::Token.new do |t|
+    result = Gestpay::Token.new(payment_method.can_tokenize?) do |t|
       t.transaction = @order.number
       t.amount      = @order.total
       t.language    = gestpay_current_locale.to_s
       t.cvv         = params[:payment_source].first.last[:verification_value]
-      # t.token_value = account.token
+      t.token_value = account.token if account
       t.buyer_email = @order.email
       t.buyer_name  = @order.bill_address.full_name
     end.payment

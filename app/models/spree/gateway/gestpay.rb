@@ -1,6 +1,7 @@
 module Spree
   class Gateway::Gestpay < Gateway
     preference :merchant_id, :string
+    preference :tokenization, :boolean, default: false
 
     def supports?(source)
       true
@@ -29,6 +30,10 @@ module Spree
 
     def actions
       %w(capture void)
+    end
+
+    def can_tokenize?
+      preferred_tokenization
     end
 
     # Indicates whether its possible to capture the payment
