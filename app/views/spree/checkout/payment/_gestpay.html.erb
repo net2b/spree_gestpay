@@ -1,7 +1,7 @@
 <%= form_for @order, url: update_checkout_path(@order.state) do |form| %>
   <%= hidden_field_tag "order[payments_attributes][][payment_method_id]", payment_method.id %>
 
-  <% if payment_method.reusable_sources(current_order).any? %>
+  <% if payment_method.can_tokenize? && payment_method.reusable_sources(current_order).any? %>
     <div class="gestpay-reuse-profile">
       <%= collection_radio_buttons(:global_collect, :profile_id, payment_method.reusable_sources(current_order), :id, :presentation) %>
     </div>
