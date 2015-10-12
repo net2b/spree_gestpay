@@ -85,7 +85,7 @@ class payment extends SpreeGestpay.module
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
         @log("trying to redirect you here: #{window.result3d.koUrl}")
-        window.location = window.result3d.koUrl
+        window.location = "#{window.result3d.koUrl}?#{$.param({error: json.error})}"
       return
 
     @error("error during 3D authorization", result)

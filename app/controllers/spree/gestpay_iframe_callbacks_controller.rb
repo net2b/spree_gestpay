@@ -12,7 +12,8 @@ module Spree
     end
 
     def secure_ko
-      redirect_to spree.checkout_state_url(:payment), flash: { error: I18n.t(:generic_error, scope: :gestpay) }
+      error = params[:error].blank? ? I18n.t(:generic_error, scope: :gestpay) : params[:error]
+      redirect_to spree.checkout_state_url(:payment), flash: { error: error }
     end
 
     def secure_3d_ws
