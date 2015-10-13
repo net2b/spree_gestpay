@@ -26,9 +26,11 @@ class payment extends SpreeGestpay.module
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
         @error(json.error)
-        @enableSubmit()
-      return
 
+        # reinitialize iframe on each js error received since iframe seems
+        # not to be usable multiple times
+        new SpreeGestpay.module().resetPage()
+      return
 
     # This is called when the payment need a 3D Secure Code.
     # We redirect user to the (external) 3D secure code page.
