@@ -3,7 +3,8 @@
 class module
   constructor: ->
     @submitButton = $('#js-gestpay-submit-button')
-    @errorDiv     = $('#js-gestpay-errors')
+    @errorDiv     = $('.js-gestpay-errors')
+    @errorContent = $('.js-gestpay-error-message-content')
 
   disableSubmit: ->
     @submitButton.prop('disabled', true).val(@submitButton.data('inactive-text'))
@@ -24,7 +25,8 @@ class module
       htmlString = result.ErrorDescription
 
     @log(logString)
-    @errorDiv.html(htmlString).show()
+    @errorContent.html(htmlString)
+    @errorDiv.show()
 
   log: (string) ->
     @logger ||= new SpreeGestpay.logger(@gestpayModuleName())
