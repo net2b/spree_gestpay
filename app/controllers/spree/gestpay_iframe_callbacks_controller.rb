@@ -6,6 +6,8 @@ module Spree
 
     protect_from_forgery except: [:secure_3d, :secure_3d_ws]
 
+    before_action :check_for_pares!, only: :secure_3d
+
     def secure_3d
       @pares     = params["PaRes"].gsub(/\s+/, "")
       @trans_key = params[:trans_key]
@@ -48,6 +50,13 @@ module Spree
     def gestpay_current_locale
       # TODO: should be overwritten in histreet with current_locale
       I18n.locale
+    end
+
+    def check_for_pares!
+      unless params.key?('PaRes')
+        Rails.logger.warn "Gestpay no PaRes found for params: #{params.inspect}"
+        redirect_to(spree.secure_3d_ko_callback_url)
+      end
     end
   end
 end
