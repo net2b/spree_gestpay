@@ -53,7 +53,7 @@ module Spree
     end
 
     def check_for_pares!
-      unless params.key?('PaRes')
+      if params['PaRes'].blank?
         Rails.logger.warn "Gestpay no PaRes found for params: #{params.inspect}"
         redirect_to(spree.secure_3d_ko_callback_url)
       end
