@@ -12,3 +12,4 @@ nbproject
 pkg
 *.swp
 spec/dummy
+spec/fixtures/gestpay_cassettes/
