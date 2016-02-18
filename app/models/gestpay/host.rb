@@ -1,15 +1,15 @@
 module Gestpay
-  class Host 
+  class Host
     def self.c2s; new(:c2s); end
     def self.s2s; new(:s2s); end
 
     HOSTS = {
       s2s: {
-        production: 'https://ecomms2s.sella.it/',
+        production: 'https://ecomm.sella.it/',
         default:    'https://testecomm.sella.it/'
       },
       c2s: {
-        production: 'https://ecomms2s.sella.it/',
+        production: 'https://ecomm.sella.it/',
         default:    'https://testecomm.sella.it/'
       }
     }
