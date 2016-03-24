@@ -20,7 +20,7 @@ module Spree
 
     def secure_3d_ws
       order = Spree::Order.find_by_number(params[:order_number])
-      payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay')
+      payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::GestpayGateway')
 
       result = Gestpay::Token.new do |t|
         t.language    = gestpay_current_locale.to_s

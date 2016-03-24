@@ -63,7 +63,7 @@ module Gestpay
       # When passing the token_value we need to remove request_token option
       @options.delete(:request_token) if @options.token_value.present?
 
-      @payment ||= Gestpay::Gateway.new.payment(@options.to_h)
+      @payment ||= Gestpay::Client.new.payment(@options.to_h)
     end
   end
 end

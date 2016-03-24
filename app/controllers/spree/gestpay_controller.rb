@@ -19,7 +19,7 @@ module Spree
       result = Gestpay::Digest.new.decrypt(params[:token])
 
       if result.success?
-        payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay')
+        payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::GestpayGateway')
         payment = payment_method.process_payment_result(result)
 
         render json: { token: result.data, redirect: gestpay_completion_path(@current_order.number) }
@@ -29,7 +29,7 @@ module Spree
     end
 
     def process_3d_redirect
-      payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay')
+      payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::GestpayGateway')
       trans_key      = params[:trans_key]
       vbv            = params[:vbv]
 

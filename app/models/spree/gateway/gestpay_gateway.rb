@@ -1,9 +1,9 @@
 module Spree
-  class Gateway::Gestpay < Gateway
+  class Gateway::GestpayGateway < Gateway
     preference :merchant_id, :string
     preference :tokenization, :boolean, default: false
 
-    def supports?(source)
+    def supports?(_source)
       true
     end
 
@@ -47,7 +47,7 @@ module Spree
     end
 
     def can_authorize?(payment)
-      ['checkout', 'pending'].include?(payment.state)
+      %w(checkout pending).include?(payment.state)
     end
     #######################################################################
 
@@ -63,7 +63,7 @@ module Spree
       ActiveMerchant::Billing::Response.new(true, '', {}, {})
     end
 
-    def cancel(response_code)
+    def cancel(_response_code)
       ActiveMerchant::Billing::Response.new(
         true,
         Spree.t('global_collect.payment_canceled')
@@ -72,8 +72,8 @@ module Spree
 
     def url3d(secure_3d_callback_url, trans_key, vbv)
       account      = ::Gestpay.config.account
-      url3d        = ::Gestpay::Host.c2s/'pagam/pagam3d.aspx'
-      callback_url = CGI::escape("#{secure_3d_callback_url}?trans_key=#{trans_key}")
+      url3d        = ::Gestpay::Host.c2s / 'pagam/pagam3d.aspx'
+      callback_url = CGI.escape("#{secure_3d_callback_url}?trans_key=#{trans_key}")
 
       "#{url3d}?a=#{account}&b=#{vbv}&c=#{callback_url}"
     end
@@ -81,15 +81,13 @@ module Spree
     def process_payment_result(result)
       Rails.logger.warn "Gestpay Result: #{result.inspect}"
       order = Spree::Order.find_by_number(result.shop_transaction_id)
-      Rails.logger.warn "Processing payment results for order id #{ order.id }: #{ order.state } | #{ order.number }"
+      Rails.logger.warn "Processing payment results for order id #{order.id}: #{order.state} | #{order.number}"
 
       # TODO: Add a transaction?
       # Spree::Order.transaction do ... end
 
       # this check is needed because this method is called twice during the iframe checkout process
-      if order.state == 'complete'
-        return order.payments.last
-      end
+      return order.payments.last if order.state == 'complete'
 
       if order.state == 'payment'
         # Account used as source of the payment. By default it is the
@@ -108,7 +106,7 @@ module Spree
               account.year = result.token_expiry_year
               account.save
 
-              Rails.logger.warn "GestPay Account saved #{ account.id }"
+              Rails.logger.warn "GestPay Account saved #{account.id}"
             end
           end
         rescue => e
@@ -121,7 +119,7 @@ module Spree
         )
         payment.source = account
 
-        Rails.logger.warn "Processing payment #{ payment.id }"
+        Rails.logger.warn "Processing payment #{payment.id}"
         Rails.logger.warn "Updating order state: from #{order.state}"
 
         if result.success?
@@ -133,7 +131,7 @@ module Spree
           payment.failure!
         end
 
-        Rails.logger.warn "Payment processed #{ payment.id } (#{ payment.state }) for order #{ payment.order.number } (#{payment.order.state})"
+        Rails.logger.warn "Payment processed #{payment.id} (#{payment.state}) for order #{payment.order.number} (#{payment.order.state})"
 
         return payment
       end

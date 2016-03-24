@@ -20,8 +20,7 @@ feature "GestPay", js: true do
   end
 
   before do
-    @gateway = Spree::Gateway::Gestpay.create!({
-      name: "Credit card", active: true, environment: Rails.env })
+    @gateway = Spree::Gateway::GestpayGateway.create!(name: 'Credit card', active: true, environment: Rails.env)
     shipping_method = FactoryGirl.create(:shipping_method)
     state = FactoryGirl.create(:state)
     state.country.update_column(:name, country)

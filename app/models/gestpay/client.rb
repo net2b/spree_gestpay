@@ -1,10 +1,10 @@
 module Gestpay
-  class Gateway
+  class Client
     include Coders
 
-    def initialize(args={})
-      wsdl = Gestpay::Host.s2s/'gestpay/gestpayws/WSs2s.asmx?WSDL'
-      args = { wsdl: wsdl, ssl_version: :TLSv1, :follow_redirects => true }.merge(args)
+    def initialize(args = {})
+      wsdl = Gestpay::Host.s2s / 'gestpay/gestpayws/WSs2s.asmx?WSDL'
+      args = { wsdl: wsdl, ssl_version: :TLSv1, follow_redirects: true }.merge(args)
       @client = Gestpay::SoapClient.new(args)
     end
 

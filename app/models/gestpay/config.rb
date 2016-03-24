@@ -4,7 +4,7 @@ module Gestpay
 
     def initialize
       @environment = Rails.env.production? ? :production : :test
-      @account     = Spree::PaymentMethod.find_by_type('Spree::Gateway::Gestpay').preferred_merchant_id || ENV['GESTPAY_ACCOUNT']
+      @account     = Spree::PaymentMethod.find_by_type('Spree::Gateway::GestpayGateway').preferred_merchant_id || ENV['GESTPAY_ACCOUNT']
     end
   end
 end

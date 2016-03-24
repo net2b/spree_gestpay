@@ -21,10 +21,10 @@ module SpreeGestpay
       end
     end
 
-    initializer "spree.gestpay.payment_methods", after: "spree.register.payment_methods" do |app|
-      app.config.spree.payment_methods << Spree::Gateway::Gestpay
+    initializer 'spree.gestpay.payment_methods', after: 'spree.register.payment_methods' do |app|
+      app.config.spree.payment_methods << Spree::Gateway::GestpayGateway
     end
 
-    config.to_prepare &method(:activate).to_proc
+    config.to_prepare(&method(:activate).to_proc)
   end
 end
