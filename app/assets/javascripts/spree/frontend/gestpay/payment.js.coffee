@@ -22,6 +22,7 @@ class payment extends SpreeGestpay.module
       .done (response) =>
         token = response.token
         @log("payment is ok! Redirecting to: #{response.redirect}")
+        window.location = response.redirect
       .fail (response) =>
         json = $.parseJSON(response.responseText)
         @log("payment is failed - #{json.error}")
