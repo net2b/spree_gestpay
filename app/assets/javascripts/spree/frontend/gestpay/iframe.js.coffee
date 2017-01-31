@@ -16,7 +16,11 @@ class form
     $('#js-gestpay-form').trigger('submit')
 
   get: (id) ->
-    $("##{id}").val()
+    element = $("##{id}")
+    if id == 'account' && element.is('fieldset')
+      element = element.find("input[name=#{id}]:checked")
+
+    element.val()
 
 class iframe extends SpreeGestpay.module
   constructor: (@merchant, @tokenPath, @transaction, @amount) ->
@@ -33,8 +37,7 @@ class iframe extends SpreeGestpay.module
     @profileSelect.is('*')
 
   setCreditCardFields: =>
-    selectedProfile = @profileSelect.find(':selected')
-
+    selectedProfile = @profileSelect.find(':selected, :checked')
     if !@hasProfiles() or selectedProfile.data('new-card')
       $('.js-hide-with-profile').show()
     else
